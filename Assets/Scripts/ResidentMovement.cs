@@ -33,7 +33,7 @@ public class ResidentMovement : MonoBehaviour
     private void OnDestroy()
     {
         ScoreManager.Instance.totalKills++;
-        PlanetManager.Instance.population.RemoveAt(PlanetManager.Instance.population.Last());
+        PlanetManager.Instance.population.RemoveAt(PlanetManager.Instance.population.LastOrDefault());
     }
 
     private void Update()
