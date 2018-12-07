@@ -20,7 +20,12 @@ public class NewGame : MonoBehaviour
 
     private void Awake()
     {
-        Instance  = this;
+        Instance = this;
+    }
+
+    private void Start()
+    {
         gameState = GameState.MainMenu;
+        Time.timeScale = 1.0f;
     }
 }

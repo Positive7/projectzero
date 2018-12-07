@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
+[Obsolete("Not used any more. Use SmoothFollow component", true)]
 public class PlanetCamera : MonoBehaviour
 {
     private void Update()

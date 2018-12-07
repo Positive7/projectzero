@@ -1,18 +1,10 @@
 using System.Collections;
-using System.Collections.Specialized;
-using System.Linq;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using Fleeing = System.Collections.ObjectModel.ObservableCollection<CivilianMovement>;
-using Cities = System.Collections.ObjectModel.ObservableCollection<Settlement>;
-using Population = System.Collections.ObjectModel.ObservableCollection<int>;
 
 public class PlanetManager : MonoBehaviour
 {
-    public Fleeing    civilianMovements = new Fleeing();
-    public Cities     cityManagers      = new Cities();
-    public Population population        = new Population();
-
     [SerializeField] private TMP_Text fleeingText, remainingTowns, remainingPopulation;
 
     public static                                PlanetManager Instance;
@@ -31,60 +23,58 @@ public class PlanetManager : MonoBehaviour
 
     private void Awake() => Instance = this;
 
-    public void OnCityDestroyed(int value)
+    [SerializeField] private int population;
+
+    public List<Settlement>       cityManagers      = new List<Settlement>();
+    public List<CivilianMovement> civilianMovements = new List<CivilianMovement>();
+
+    public delegate void PopulationChanged(int i);
+
+    public static event PopulationChanged OnPopulationChanged;
+
+    public int Population
     {
-        for (int i = 0; i < value; i++)
-            if (population.Count > 0)
-            {
-                population.Remove(population.LastOrDefault());
-                ScoreManager.Instance.totalKills++;
-            }
+        get => population;
+        set
+        {
+            if (population == value) return;
+            population = value;
+            OnPopulationChanged?.Invoke(population);
+        }
+    }
+
+    private void Start()
+    {
+        OnPopulationChanged += OnOnPopulationChanged;
+        Initialize();
     }
 
     private void Initialize()
     {
-        civilianMovements = new Fleeing();
-
-        void OnCityManagersOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
+        int cnt = 0;
+        foreach (var c in cityManagers)
         {
-            remainingTowns.text = cityManagers.Count == 1 || cityManagers.Count == 0
-                                          ? $"Remaining Town : {cityManagers.Count}"
-                                          : $"Remaining Towns : {cityManagers.Count}";
+            if (c == null || c.population <= 0) continue;
+            for (int j = 0; j < c.population; j++) { cnt++; }
         }
 
-        cityManagers.CollectionChanged += OnCityManagersOnCollectionChanged;
+        Population = cnt;
+    }
 
-        void OnCivilianMovementsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs args) =>
-                fleeingText.text = civilianMovements.Count == 1 || civilianMovements.Count == 0
-                                           ? $"Fleeing civilian : {civilianMovements.Count}"
-                                           : $"Fleeing civilians : {civilianMovements.Count}";
-
-        civilianMovements.CollectionChanged += OnCivilianMovementsOnCollectionChanged;
-
-        if (cityManagers != null && cityManagers.Count > 0)
-        {
-            population = new Population();
-
-            void OnPopulationOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs args) =>
-                    remainingPopulation.text = $"Remaining population : {population.Count}";
-
-            population.CollectionChanged += OnPopulationOnCollectionChanged;
-            for (int i = 0; i < cityManagers.Count; i++)
-            {
-                if (cityManagers[i]   != null && cityManagers[i].population > 0)
-                    for (int j = 0; j < cityManagers[i].population; j++) { population.Add(i); }
-            }
-
-            remainingTowns.text = cityManagers.Count == 1 || cityManagers.Count == 0
-                                          ? $"Remaining Town : {cityManagers.Count}"
-                                          : $"Remaining Towns : {cityManagers.Count}";
-            remainingPopulation.text = $"Remaining population : {population.Count}";
-        }
-        else { NewGame.Instance.GameState = GameState.End; }
-
-        fleeingText.text = civilianMovements.Count == 1 || civilianMovements.Count == 0
+    private void OnOnPopulationChanged(int i)
+    {
+        remainingPopulation.text = $"Remaining population : {population}";
+        remainingTowns.text = cityManagers.Count <= 1
+                                      ? $"Remaining town : {cityManagers.Count}"
+                                      : $"Remaining towns : {cityManagers.Count}";
+        fleeingText.text = civilianMovements.Count <= 1
                                    ? $"Fleeing civilian : {civilianMovements.Count}"
                                    : $"Fleeing civilians : {civilianMovements.Count}";
+    }
+
+    public void OnCityDestroyed(int value)
+    {
+        for (int i = 0; i < value; i++) { Population--; }
     }
 
     private void OnEnable()
@@ -153,7 +143,7 @@ public class PlanetManager : MonoBehaviour
 
     private IEnumerator SpawnCities()
     {
-        cityManagers = new Cities();
+        cityManagers = new List<Settlement>();
         for (int i = 0; i < maximumCities; i++)
         {
             var pos  = Random.onUnitSphere * 25f;
@@ -179,7 +169,7 @@ public class PlanetManager : MonoBehaviour
     private void Update()
     {
         if (NewGame.Instance.GameState != GameState.NewGame) return;
-        if (population.Count <= 0 && cityManagers.Count <= 0 && civilianMovements.Count <= 0)
+        if (Population <= 0 && cityManagers.Count <= 0 && civilianMovements.Count <= 0)
             NewGame.Instance.GameState = GameState.End;
     }
 }

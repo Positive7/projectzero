@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,11 +29,8 @@ public class City : Settlement
     {
         health           -= damage;
         image.fillAmount =  health / MaxHealth;
-        if (health <= 0.0f)
-        {
-            PlanetManager.Instance.OnCityDestroyed(population);
-            Destroy(gameObject);
-        }
+
+        if (health <= 0.0f) { Destroy(gameObject); }
 
         SpawnGuards();
     }
@@ -50,7 +46,6 @@ public class City : Settlement
             if (i == 2) x = civilian;
             if (i == 3) x = guard;
 
-            PlanetManager.Instance.population.Remove(PlanetManager.Instance.population.LastOrDefault());
             var g = Instantiate(x, transform.position + transform.up, Quaternion.identity);
             if (i == 2)
             {
@@ -63,7 +58,7 @@ public class City : Settlement
             if (i == 3)
             {
                 currentGuards -= 1;
-                var residentMovement = g.GetComponent<ResidentMovement>();
+                var residentMovement = g.GetComponent<GuardMovement>();
                 residentMovement.target = PlanetManager.Instance.player.transform;
                 residentMovement.planet = PlanetManager.Instance.planet.transform;
             }
@@ -80,8 +75,10 @@ public class City : Settlement
 
     private void OnDestroy()
     {
+        ScoreManager.Instance.ScoreAdd(500);
         ScoreManager.Instance.totalSettlementsDestroyed++;
         if (PlanetManager.Instance.cityManagers.Contains(this))
             PlanetManager.Instance.cityManagers.Remove(this);
+        PlanetManager.Instance.OnCityDestroyed(population);
     }
 }

@@ -14,10 +14,8 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.transform.CompareTag("Enemy"))
         {
-            if (other.gameObject.GetComponent<ResidentMovement>())
-                other.gameObject.GetComponent<ResidentMovement>().OnHit(10);
-            if (other.gameObject.GetComponent<CivilianMovement>())
-                other.gameObject.GetComponent<CivilianMovement>().OnHit(50);
+            if (other.gameObject.GetComponent<Enemies>() && other.gameObject.GetComponent<Enemies>().destroying) return;
+            if (other.gameObject.GetComponent<Enemies>()) other.gameObject.GetComponent<Enemies>().OnHit();
             gameObject.SetActive(false);
         }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +9,7 @@ public class CanvasManager : MonoBehaviour
     [SerializeField] private Image      healthImage,  staminaImage;
     [SerializeField] private TMP_Text   healthAmount, staminaAmount;
 
-    GameObject player => PlanetManager.Instance.player;
+    GameObject                  player => PlanetManager.Instance.player;
     public static CanvasManager Instance;
 
     private void Awake()
@@ -23,16 +22,18 @@ public class CanvasManager : MonoBehaviour
         switch (NewGame.Instance.GameState)
         {
             case GameState.MainMenu:
+                Time.timeScale   = 1.0f;
                 Cursor.lockState = CursorLockMode.None;
                 if (player != null) player.SetActive(false);
-                planetCamera.SetActive(true);
+                //planetCamera.SetActive(true);
                 mainMenu.SetActive(true);
                 pauseMenu.SetActive(false);
                 score.SetActive(false);
                 ScoreManager.Instance.totalKills                = 0;
                 ScoreManager.Instance.totalSettlementsDestroyed = 0;
                 ScoreManager.Instance.endTime                   = 0;
-                ;
+                ScoreManager.Instance.score                     = 0;
+                planetCamera.GetComponent<SmoothFollow>().MoveToOriginalPosition();
                 break;
             case GameState.NewGame:
                 Cursor.lockState = CursorLockMode.Locked;
@@ -44,30 +45,35 @@ public class CanvasManager : MonoBehaviour
                     player.GetComponent<PlayerController>().staminaAmount = staminaAmount;
                     player.GetComponent<PlayerController>().staminaImage  = staminaImage;
                     player.GetComponent<PlayerController>().Initialize();
+                    planetCamera.GetComponent<SmoothFollow>().target = player.transform;
                 }
 
-                planetCamera.SetActive(false);
+                //planetCamera.SetActive(false);
                 mainMenu.SetActive(false);
                 mainGame.SetActive(true);
                 pauseMenu.SetActive(false);
                 score.SetActive(false);
-                ;
+
                 break;
             case GameState.PauseMenu:
                 Cursor.lockState = CursorLockMode.None;
-                planetCamera.SetActive(true);
+                //planetCamera.SetActive(true);
+                if (player != null) player.SetActive(false);
                 pauseMenu.SetActive(true);
                 mainGame.SetActive(false);
-                ;
+                planetCamera.GetComponent<SmoothFollow>().MoveToOriginalPosition();
                 break;
             case GameState.End:
                 Cursor.lockState = CursorLockMode.None;
                 if (player != null) player.SetActive(false);
-                planetCamera.SetActive(true);
+                //planetCamera.SetActive(true);
                 mainMenu.SetActive(false);
                 mainGame.SetActive(false);
                 score.SetActive(true);
-                ;
+                planetCamera.GetComponent<SmoothFollow>().MoveToOriginalPosition();
+                break;
+            case GameState.Null:
+                Time.timeScale = 1.0f;
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -89,7 +95,5 @@ public class CanvasManager : MonoBehaviour
                 Time.timeScale             = 1.0f;
             }
         }
-
-
     }
 }

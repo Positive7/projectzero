@@ -69,7 +69,7 @@ public class Sabotage : MonoBehaviour
         {
             newCity.currentGuards -= 1;
             var g                = Instantiate(guard, transform.position + transform.up, Quaternion.identity);
-            var residentMovement = g.GetComponent<ResidentMovement>();
+            var residentMovement = g.GetComponent<GuardMovement>();
             residentMovement.target = PlanetManager.Instance.player.transform;
             residentMovement.planet = PlanetManager.Instance.planet.transform;
             yield return waitTime;

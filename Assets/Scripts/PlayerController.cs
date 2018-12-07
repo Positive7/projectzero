@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject planet;
     [SerializeField] private float      speed = 5.0f, sprintSpeed = 10.0f;
 
-    private Rigidbody rb;
+    public Rigidbody rb;
     private float     h, v;
     private Vector3   moveDirection;
 
@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.transform.CompareTag("Enemy"))
         {
+            if (other.gameObject.GetComponent<Enemies>().destroying) return;
             health                 -= 5;
             healthImage.fillAmount =  health / maxHealth;
             healthAmount.text      =  $"{health} / {maxHealth}";
@@ -82,5 +83,24 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(eUp * -9.81f);
         if (sprint) { rb.MovePosition(rb.position + transform.TransformDirection(moveDirection) * sprintSpeed * Time.deltaTime); }
         else { rb.MovePosition(rb.position        + transform.TransformDirection(moveDirection) * speed       * Time.deltaTime); }
+    }
+}
+
+public class MyClass : MonoBehaviour
+{
+    private bool jump;
+
+    private void Update()
+    {
+        if (!jump) { jump = Input.GetKeyDown(KeyCode.Space); }
+    }
+
+    private void FixedUpdate()
+    {
+        if (jump)
+        {
+            //Do physics jump
+            jump = false;
+        }
     }
 }

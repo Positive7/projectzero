@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -57,8 +56,9 @@ public class Bomb : MonoBehaviour
         for (int i = 0; i < rnd; i++)
         {
             Instantiate(explosion, transform.position + Random.insideUnitSphere * 2, Quaternion.identity);
-            city.currentCivilian -= 1;
-            PlanetManager.Instance.population.Remove(PlanetManager.Instance.population.LastOrDefault());
+            if (city.currentCivilian > 0) city.currentCivilian -= 1;
+            else break;
+            PlanetManager.Instance.Population--;
             yield return new WaitForSeconds(0.25f);
         }
 
