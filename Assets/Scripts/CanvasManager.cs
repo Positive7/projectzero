@@ -9,12 +9,26 @@ public class CanvasManager : MonoBehaviour
     [SerializeField] private Image      healthImage,  staminaImage;
     [SerializeField] private TMP_Text   healthAmount, staminaAmount;
 
-    GameObject                  player => PlanetManager.Instance.player;
-    public static CanvasManager Instance;
+    [SerializeField] private TMP_Text soundText;
+    [SerializeField] private Slider   soundSlider;
+    public float gunEffect;
+    GameObject                        player => PlanetManager.Instance.player;
+    public static CanvasManager       Instance;
 
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        soundText.text = $"Gun effect : {soundSlider.value}";
+        soundSlider.onValueChanged.AddListener(delegate(float value)
+        {
+            soundText.text = $"Gun effect : {value}";
+            gunEffect = value;
+            soundSlider.gameObject.GetComponent<AudioSource>().volume = gunEffect;
+        });
     }
 
     public void Initialize()

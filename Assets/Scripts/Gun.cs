@@ -18,6 +18,13 @@ public class Gun : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
+    private void OnEnable()
+    {
+        if (audioSource == null) return;
+        if (CanvasManager.Instance == null) return;
+        audioSource.volume = CanvasManager.Instance.gunEffect;
+    }
+
     private GameObject GetPooled()
     {
         if (bullets.Count < 30)
