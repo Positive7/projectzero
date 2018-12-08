@@ -16,6 +16,7 @@ public class CivilianMovement : Enemies
 
     protected override void Update()
     {
+        base.Update();
         if (destroying) return;
         transform.up = transform.position - planet.position;
         var dir = (rb.position - target.position).normalized;

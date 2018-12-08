@@ -6,12 +6,12 @@ using Random = UnityEngine.Random;
 
 public class City : Settlement
 {
-    [SerializeField] private GameObject guard, civilian;
+    [SerializeField] private GameObject guard, civilian, addHealth;
     [SerializeField] private Image      image;
 
     [SerializeField] private TMP_Text populationInfo;
 
-    private const float MaxHealth = 500.0f;
+    private const float MaxHealth = 10.0f;
     public        float health;
 
     private void Awake()
@@ -30,7 +30,13 @@ public class City : Settlement
         health           -= damage;
         image.fillAmount =  health / MaxHealth;
 
-        if (health <= 0.0f) { Destroy(gameObject); }
+        if (health <= 0.0f)
+        {
+            var rnd = Random.Range(1, 5);
+            if (rnd == 3) { Instantiate(addHealth, transform.position + transform.up, transform.rotation); }
+
+            Destroy(gameObject);
+        }
 
         SpawnGuards();
     }

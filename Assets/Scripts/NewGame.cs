@@ -1,9 +1,11 @@
+using UnityEditor;
 using UnityEngine;
 
 public class NewGame : MonoBehaviour
 {
     public static            NewGame   Instance;
     [SerializeField] private GameState gameState;
+    public                   GameState previousState;
 
     public GameState GameState
     {
@@ -12,7 +14,8 @@ public class NewGame : MonoBehaviour
         {
             if (!Equals(gameState, value))
             {
-                gameState = value;
+                previousState = value;
+                gameState     = value;
                 CanvasManager.Instance.Initialize();
             }
         }
@@ -25,7 +28,7 @@ public class NewGame : MonoBehaviour
 
     private void Start()
     {
-        gameState = GameState.MainMenu;
+        gameState      = GameState.MainMenu;
         Time.timeScale = 1.0f;
     }
 }

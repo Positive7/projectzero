@@ -1,4 +1,7 @@
-﻿using TMPro;
+﻿using System;
+using System.Collections;
+using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject planet;
     [SerializeField] private float      speed = 5.0f, sprintSpeed = 10.0f;
 
-    public Rigidbody rb;
+    public  Rigidbody rb;
     private float     h, v;
     private Vector3   moveDirection;
 
@@ -17,24 +20,39 @@ public class PlayerController : MonoBehaviour
         rb              = GetComponent<Rigidbody>();
     }
 
+    public void Regen(int i)
+    {
+        StartCoroutine(RegenerateHealth(i));
+    }
+
+    public IEnumerator RegenerateHealth(int i)
+    {
+        while (health <= 100.0f && i > 0)
+        {
+            i--;
+            health++;
+            yield return new WaitForSeconds(0.05f);
+        }
+    }
+
     private void Start()
     {
-        planet = PlanetManager.Instance.planet;
+        planet  = PlanetManager.Instance.planet;
+        health  = maxHealth;
+        stamina = maxStamina;
     }
 
     public void Initialize()
     {
-        health                 = maxHealth;
-        stamina                = maxStamina;
-        healthImage.fillAmount = health / maxHealth;
-        healthAmount.text      = $"{health} / {maxHealth}";
-
+        healthImage.fillAmount  = health / maxHealth;
+        healthAmount.text       = $"{health} / {maxHealth}";
         staminaImage.fillAmount = stamina / maxStamina;
         staminaAmount.text      = $"{stamina} / {maxStamina}";
     }
 
-    private float health  = 100,    maxHealth  = 100;
-    private float stamina = 100.0f, maxStamina = 100.0f;
+    public  float health    = 100;
+    private float maxHealth = 100;
+    private float stamina   = 100.0f, maxStamina = 100.0f;
 
     public Image    healthImage,  staminaImage;
     public TMP_Text healthAmount, staminaAmount;
@@ -44,18 +62,23 @@ public class PlayerController : MonoBehaviour
         if (other.transform.CompareTag("Enemy"))
         {
             if (other.gameObject.GetComponent<Enemies>().destroying) return;
-            health                 -= 5;
-            healthImage.fillAmount =  health / maxHealth;
-            healthAmount.text      =  $"{health} / {maxHealth}";
+            health -= 5;
         }
     }
 
     [SerializeField] private bool sprint;
 
-
     private void Update()
     {
         if (NewGame.Instance.GameState != GameState.NewGame) return;
+        healthImage.fillAmount = health / maxHealth;
+        healthAmount.text      = $"{health} / {maxHealth}";
+        if (health <= 0.0f)
+        {
+            NewGame.Instance.GameState = GameState.End;
+            ScoreManager.Instance.Summary("You Died!");
+        }
+
         float x = Input.GetAxis("Mouse X") * 2.0f;
         transform.Rotate(0, x, 0);
         h = Input.GetAxis("Horizontal");
@@ -83,24 +106,5 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(eUp * -9.81f);
         if (sprint) { rb.MovePosition(rb.position + transform.TransformDirection(moveDirection) * sprintSpeed * Time.deltaTime); }
         else { rb.MovePosition(rb.position        + transform.TransformDirection(moveDirection) * speed       * Time.deltaTime); }
-    }
-}
-
-public class MyClass : MonoBehaviour
-{
-    private bool jump;
-
-    private void Update()
-    {
-        if (!jump) { jump = Input.GetKeyDown(KeyCode.Space); }
-    }
-
-    private void FixedUpdate()
-    {
-        if (jump)
-        {
-            //Do physics jump
-            jump = false;
-        }
     }
 }

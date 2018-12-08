@@ -4,6 +4,10 @@ using UnityEngine;
 
 public static class Extensions
 {
+    public static T GetOrAddComponent<T>(this GameObject obj) where T : Component
+    {
+        return obj.GetComponent<T>() == null ? obj.AddComponent<T>() : obj.GetComponent<T>();
+    }
 
     public static IEnumerator BoingLikeInterpolation(Action<Vector3> action, Vector3 min, Vector3 max, float time)
     {
@@ -18,19 +22,6 @@ public static class Extensions
 
         action(max);
         PlanetManager.Instance.generating = false;
-    }
-
-    public static IEnumerator BoingLikeInterpolation2(Action<Vector3> action, Vector3 min, Vector3 max, float time)
-    {
-        var t = 0.0f;
-        while (t < 1.0f)
-        {
-            action(Boing(min, max, t));
-            t += Time.deltaTime * time;
-            yield return null;
-        }
-
-        action(max);
     }
 
     public static float Boing(float start, float end, float time)

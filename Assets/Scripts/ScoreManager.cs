@@ -12,6 +12,7 @@ public class ScoreManager : MonoBehaviour
 
     public int score;
 
+    [SerializeField] private TMP_Text summary;
     [SerializeField] private TMP_Text kills;
     [SerializeField] private TMP_Text destroyed;
     [SerializeField] private TMP_Text end;
@@ -23,7 +24,12 @@ public class ScoreManager : MonoBehaviour
         Instance = this;
     }
 
-    void OnDestroy() => StopAllCoroutines();
+    private void OnDestroy() => StopAllCoroutines();
+
+    public void Summary(string value = "You Win!")
+    {
+        summary.text = value;
+    }
 
     public void ScoreAdd(int amount)
     {

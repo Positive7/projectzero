@@ -13,6 +13,7 @@ public class Enemies : MonoBehaviour
 
     private float maxHealth = 100.0f;
     private float health;
+    private bool  mainMenu;
 
     private void Awake()
     {
@@ -28,7 +29,11 @@ public class Enemies : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (NewGame.Instance.GameState == GameState.MainMenu) { Destroy(gameObject); }
+        if (NewGame.Instance.GameState == GameState.MainMenu)
+        {
+            mainMenu = true;
+            Destroy(gameObject);
+        }
     }
 
     private void FixedUpdate()
@@ -58,6 +63,7 @@ public class Enemies : MonoBehaviour
 
     protected virtual void OnDestroy()
     {
+        if (mainMenu) return;
         PlanetManager.Instance.Population--;
         ScoreManager.Instance.totalKills++;
         ScoreManager.Instance.ScoreAdd(destroyWorth);

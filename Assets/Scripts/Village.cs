@@ -8,9 +8,9 @@ public class Village : Settlement
 {
     [SerializeField] private Image image;
 
-    private const            float      MaxHealth = 100.0f;
+    private const            float      MaxHealth = 10.0f;
     private                  float      health;
-    [SerializeField] private GameObject guard, civilian;
+    [SerializeField] private GameObject guard, civilian, addHealth;
     [SerializeField] private TMP_Text   populationInfo;
 
     private void Awake()
@@ -24,6 +24,8 @@ public class Village : Settlement
         image.fillAmount =  health / MaxHealth;
         if (health <= 0.0f)
         {
+            var rnd = Random.Range(1, 5);
+            if (rnd == 3) { Instantiate(addHealth, transform.position + transform.up, transform.rotation); }
             PlanetManager.Instance.OnCityDestroyed(population);
             Destroy(gameObject);
         }
