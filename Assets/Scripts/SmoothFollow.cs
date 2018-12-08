@@ -14,12 +14,6 @@ public class SmoothFollow : MonoBehaviour
     private void Awake()
     {
         originalPosition = transform.position;
-
-    }
-
-    private void OnEnable()
-    {
-        MoveToOriginalPosition();
     }
 
     private Vector3 vel;
@@ -44,7 +38,7 @@ public class SmoothFollow : MonoBehaviour
     private void FixedUpdate()
     {
         if (!IsActive) return;
-        if (target !=  Math.Abs(target.GetComponent<PlayerController>().rb.velocity.magnitude) < 0.01f)
+        if (target != null && Math.Abs(target.GetComponent<PlayerController>().rb.velocity.magnitude) < 0.01f)
         {
             time -= Time.deltaTime;
             if (time <= 0.0f)

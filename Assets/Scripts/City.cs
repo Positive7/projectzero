@@ -11,7 +11,7 @@ public class City : Settlement
 
     [SerializeField] private TMP_Text populationInfo;
 
-    private const float MaxHealth = 10.0f;
+    private const float MaxHealth = 200.0f;
     public        float health;
 
     private void Awake()

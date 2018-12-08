@@ -8,7 +8,7 @@ public class Village : Settlement
 {
     [SerializeField] private Image image;
 
-    private const            float      MaxHealth = 10.0f;
+    private const            float      MaxHealth = 100.0f;
     private                  float      health;
     [SerializeField] private GameObject guard, civilian, addHealth;
     [SerializeField] private TMP_Text   populationInfo;

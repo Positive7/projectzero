@@ -14,6 +14,6 @@ public class AddHealth : MonoBehaviour
 
     private void Update()
     {
-        transform.Rotate(Vector3.up, 10.0f * Time.deltaTime);
+        transform.Rotate(Vector3.up, 50.0f * Time.deltaTime);
     }
 }
