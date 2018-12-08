@@ -24,11 +24,18 @@ public class CanvasManager : MonoBehaviour
             case GameState.MainMenu:
                 Time.timeScale   = 1.0f;
                 Cursor.lockState = CursorLockMode.None;
-                if (player != null) player.SetActive(false);
+                if (player != null)
+                {
+                    player.GetComponent<PlayerController>().health  = 100;
+                    player.GetComponent<PlayerController>().stamina = 100;
+                    player.SetActive(false);
+                }
+
                 //planetCamera.SetActive(true);
                 mainMenu.SetActive(true);
                 pauseMenu.SetActive(false);
                 score.SetActive(false);
+
                 ScoreManager.Instance.totalKills                = 0;
                 ScoreManager.Instance.totalSettlementsDestroyed = 0;
                 ScoreManager.Instance.endTime                   = 0;
@@ -44,7 +51,7 @@ public class CanvasManager : MonoBehaviour
                     player.GetComponent<PlayerController>().healthAmount  = healthAmount;
                     player.GetComponent<PlayerController>().staminaAmount = staminaAmount;
                     player.GetComponent<PlayerController>().staminaImage  = staminaImage;
-                    if (NewGame.Instance.previousState != GameState.NewGame) player.GetComponent<PlayerController>().Initialize();
+                    if (NewGame.Instance.previousState != GameState.PauseMenu) player.GetComponent<PlayerController>().Initialize();
                     planetCamera.GetComponent<SmoothFollow>().target = player.transform;
                 }
 

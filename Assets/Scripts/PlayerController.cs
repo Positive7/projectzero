@@ -52,7 +52,8 @@ public class PlayerController : MonoBehaviour
 
     public  float health    = 100;
     private float maxHealth = 100;
-    private float stamina   = 100.0f, maxStamina = 100.0f;
+    public float stamina   = 100.0f;
+    private float maxStamina = 100.0f;
 
     public Image    healthImage,  staminaImage;
     public TMP_Text healthAmount, staminaAmount;

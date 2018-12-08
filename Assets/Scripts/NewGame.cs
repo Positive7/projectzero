@@ -14,7 +14,7 @@ public class NewGame : MonoBehaviour
         {
             if (!Equals(gameState, value))
             {
-                previousState = value;
+                previousState = gameState;
                 gameState     = value;
                 CanvasManager.Instance.Initialize();
             }
