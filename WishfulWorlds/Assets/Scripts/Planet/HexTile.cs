@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TinyWorlds
+namespace WishfulWorlds
 {
     public enum Biome
     {

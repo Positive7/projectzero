@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace TinyWorlds
+namespace WishfulWorlds
 {
     /// <summary>
     /// Kattintásra épületet rak a cellára (bal gomb), jobb gombbal lebontja.

@@ -1,6 +1,6 @@
-# Tiny Worlds – hexa-bolygó alap
+# Wishful Worlds – hexa-bolygó alap
 
-Unity 6.3 + URP. A `Assets/Scripts/Planet` mappát másold be egy új URP projekt `Assets` mappájába.
+Unity 6.3 + URP. A `Assets/Scripts/Planet` mappát másold be a `C:/UnityProjects/WishfulWorlds/Assets/Scripts/` alá (Unity 6.3, Universal 3D sablon).
 
 ## Scene beállítás (kb. 5 perc)
 

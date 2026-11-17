@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TinyWorlds
+namespace WishfulWorlds
 {
     /// <summary>
     /// Bal gombos húzással a bolygó körül forog (bármerre, nincs pólus-zár), görgővel zoomol.

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using Random = System.Random;
 
-namespace TinyWorlds
+namespace WishfulWorlds
 {
     [Serializable]
     public struct BiomeSettings

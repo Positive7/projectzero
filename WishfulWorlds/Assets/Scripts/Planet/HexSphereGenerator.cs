@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TinyWorlds
+namespace WishfulWorlds
 {
     /// <summary>
     /// Goldberg-poliéder (hexasphere) generálás: felosztott ikozaéder duálisa.

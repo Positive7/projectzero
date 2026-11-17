@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 #endif
 
-namespace TinyWorlds
+namespace WishfulWorlds
 {
     /// <summary>
     /// Vékony réteg a bemenet fölött: az új Input Systemmel és a régi Input Managerrel is működik.
