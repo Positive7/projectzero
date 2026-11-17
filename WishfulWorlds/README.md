@@ -1,6 +1,6 @@
 # Wishful Worlds – hexa-bolygó alap
 
-Unity 6.3 + URP. A `Assets/Scripts/Planet` mappát másold be a `C:/UnityProjects/WishfulWorlds/Assets/Scripts/` alá (Unity 6.3, Universal 3D sablon).
+Unity 6.3 + URP. Az `Assets` mappa tartalmát másold be a Unity projekt `Assets` mappájába (Unity 6.3, Universal 3D sablon). A mappastruktúra leírása lent.
 
 ## Scene beállítás (kb. 5 perc)
 
@@ -35,3 +35,19 @@ Unity 6.3 + URP. A `Assets/Scripts/Planet` mappát másold be a `C:/UnityProject
 - Szomszédsági bónusz: `tile.Neighbors` alapján.
 - Saját Shader Graph (toon ramp + rim light) a sima Lit helyett.
 - Keringő nap + két LUT (nappal/este).
+
+## Mappastruktúra
+```
+Assets/
+├── _Project/        minden saját tartalom (az aláhúzás miatt mindig felül van)
+│   ├── Scripts/     Planet, Town, Buildings, Residents, Camera, Input, UI, Core, Editor
+│   ├── Data/        ScriptableObjectek: Buildings, Biomes, Planets, Wishes
+│   ├── Prefabs/     Buildings, Residents, Planet, UI
+│   ├── Art/         Models, Materials, Shaders, Textures, VFX
+│   ├── Audio/       Music, SFX
+│   ├── Scenes/      Boot, MainMenu, Planet + Sandbox/ a kísérleteknek
+│   └── Settings/    URP asset, Volume profilok, LUT-ok, Input Actions
+├── ThirdParty/      asset packok
+└── Plugins/
+```
+Szabályok: épület, biom és bolygó adat ScriptableObjectben legyen, ne kódban. Az üres mappákban lévő `.gitkeep` csak azért van, hogy a git megtartsa a mappát; törölhető, ha már van benne fájl.
