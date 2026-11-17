@@ -1,0 +1,70 @@
+# ---- Unity által generált mappák (újraépíthetők, nem kellenek a repóba) ----
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+
+# Asset Store eszközök saját mappája
+/[Aa]ssets/AssetStoreTools*
+
+# Gradle / Android
+.gradle/
+/[Aa]ssets/Plugins/Editor/JetBrains*
+
+# ---- IDE-k ----
+.vs/
+.vscode/
+.idea/
+.consulo/
+*.csproj
+*.unityproj
+*.sln
+*.slnx
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Unity-generált meta fájlok a fenti kizárt mappákhoz
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# Crash reportok
+sysinfo.txt
+
+# Buildek
+*.apk
+*.aab
+*.unitypackage
+*.app
+*.exe
+*.x86_64
+
+# Crashlytics
+crashlytics-build.properties
+
+# Addressables build eredmények
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+/[Aa]ssets/[Ss]treamingAssets/aa.meta
+/[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Burst
+/[Aa]ssets/*_BurstDebugInformation_DoNotShip*
+
+# ---- Operációs rendszer szemét ----
+.DS_Store
+Thumbs.db
+desktop.ini
